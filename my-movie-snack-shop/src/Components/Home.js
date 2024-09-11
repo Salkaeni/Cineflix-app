@@ -1,40 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import MovieItem from './MovieItem';
 import SnackItem from './SnackItem';
+import TicketItem from './TicketItem';
+import { fetchSnacks, fetchTickets } from '../services/api';
 
 const Home = ({ addToCart }) => {
-  const [movies, setMovies] = useState([]);
   const [snacks, setSnacks] = useState([]);
+  const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
-    // Fetch movies and snacks from the JSON server
-    const fetchData = async () => {
-      try {
-        const moviesResponse = await fetch('/api/movies');
-        const snacksResponse = await fetch('/api/snacks');
-        const moviesData = await moviesResponse.json();
-        const snacksData = await snacksResponse.json();
-        setMovies(moviesData);
-        setSnacks(snacksData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    const loadItems = async () => {
+      const snacksData = await fetchSnacks();
+      const ticketsData = await fetchTickets();
+      setSnacks(snacksData);
+      setTickets(ticketsData);
     };
 
-    fetchData();
+    loadItems();
   }, []);
 
   return (
     <div>
-      <h1>Available Movies</h1>
-      <div className="movie-list">
-        {movies.map(movie => (
-          <MovieItem key={movie.id} movie={movie} addToCart={addToCart} />
+      <h1>Available Tickets</h1>
+      <div className="items-container">
+        {tickets.map(ticket => (
+          <TicketItem key={ticket.id} ticket={ticket} addToCart={addToCart} />
         ))}
       </div>
 
       <h1>Available Snacks</h1>
-      <div className="snack-list">
+      <div className="items-container">
         {snacks.map(snack => (
           <SnackItem key={snack.id} snack={snack} addToCart={addToCart} />
         ))}
