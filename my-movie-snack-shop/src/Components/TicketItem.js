@@ -2,7 +2,7 @@ import React from 'react';
 
 function TicketItem({ ticket, addToCart }) {
   return (
-    <div className="ticket-item">
+    <div className="item ticket-item">
       <img src={ticket.poster} alt={ticket.title} />
       <h3>{ticket.title}</h3>
       <p>Showtime: {ticket.showtime}</p>
@@ -14,3 +14,4 @@ function TicketItem({ ticket, addToCart }) {
 }
 
 export default TicketItem;
+
