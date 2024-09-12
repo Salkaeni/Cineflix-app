@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './Components/NavBar';
 import Home from './Components/Home';
 import Cart from './Components/Cart';
 import OrderHistory from './Components/OrderHistory';
+import Checkout from './Components/Checkout'; // Import the Checkout component
 import './App.css';
 
 function App() {
-  // Sample cartItems to pass as props
-  const cartItems = [
-    // Add cart item examples here if needed
-  ];
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const addToCart = (item) => {
+    // Add item to cart logic
+    const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
+    if (existingItem) {
+      setCartItems(cartItems.map(cartItem =>
+        cartItem.id === item.id ? { ...existingItem, quantity: existingItem.quantity + 1 } : cartItem
+      ));
+    } else {
+      setCartItems([...cartItems, { ...item, quantity: 1 }]);
+    }
+    setTotal(prevTotal => prevTotal + item.price);
+  };
+
+  const removeFromCart = (id) => {
+    // Remove item from cart logic
+    const itemToRemove = cartItems.find(cartItem => cartItem.id === id);
+    if (itemToRemove) {
+      setCartItems(cartItems.filter(cartItem => cartItem.id !== id));
+      setTotal(prevTotal => prevTotal - itemToRemove.price * itemToRemove.quantity);
+    }
+  };
+
+  const handlePlaceOrder = () => {
+    // Place order logic, e.g., send data to backend and clear cart
+    console.log('Order placed!');
+    setCartItems([]);
+    setTotal(0);
+  };
 
   return (
     <Router>
@@ -18,9 +46,10 @@ function App() {
         <NavBar />
         <div className="content">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<Cart cartItems={cartItems} />} />
+            <Route path="/" element={<Home addToCart={addToCart} />} />
+            <Route path="/cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
             <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/checkout" element={<Checkout cartItems={cartItems} total={total} onPlaceOrder={handlePlaceOrder} />} />
           </Routes>
         </div>
       </div>
@@ -29,3 +58,4 @@ function App() {
 }
 
 export default App;
+
