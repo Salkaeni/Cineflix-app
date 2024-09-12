@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckoutForm from './CheckoutForm'; // Import the CheckoutForm component
+import CheckoutForm from './CheckoutForm'; // Ensure the path is correct
 
 const Checkout = ({ cartItems, total, onPlaceOrder }) => {
   return (
@@ -30,3 +30,4 @@ const Checkout = ({ cartItems, total, onPlaceOrder }) => {
 };
 
 export default Checkout;
+

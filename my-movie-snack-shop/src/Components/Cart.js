@@ -1,8 +1,10 @@
 import React from 'react';
+
 const Cart = ({ cartItems, removeFromCart, checkout }) => {
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
+
   return (
     <div>
       <h1>Your Cart</h1>
