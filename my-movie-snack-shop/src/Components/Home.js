@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import SnackItem from './SnackItem';
 import TicketItem from './TicketItem';
-import { fetchSnacks, fetchTickets } from '../services/api';
 
 const Home = ({ addToCart }) => {
   const [snacks, setSnacks] = useState([]);
   const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
-    const loadItems = async () => {
-      const snacksData = await fetchSnacks();
-      const ticketsData = await fetchTickets();
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:3000/snacks');
+      const snacksData = await response.json();
       setSnacks(snacksData);
+
+      const ticketResponse = await fetch('http://localhost:3000/tickets');
+      const ticketsData = await ticketResponse.json();
       setTickets(ticketsData);
     };
 
-    loadItems();
+    fetchData();
   }, []);
 
   return (

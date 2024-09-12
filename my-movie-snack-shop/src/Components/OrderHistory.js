@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
-function OrderHistory() {
+const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    // Fetch the orders from the JSON server
-    axios.get('http://localhost:3000/orders')
-      .then(response => setOrders(response.data))
-      .catch(error => console.error('Error fetching orders:', error));
+    const fetchOrders = async () => {
+      const response = await fetch('http://localhost:3000/orders');
+      const ordersData = await response.json();
+      setOrders(ordersData);
+    };
+
+    fetchOrders();
   }, []);
 
   return (
@@ -29,6 +31,6 @@ function OrderHistory() {
       )}
     </div>
   );
-}
+};
 
 export default OrderHistory;
