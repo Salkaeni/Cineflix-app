@@ -15,3 +15,4 @@ function TicketItem({ ticket, addToCart }) {
 
 export default TicketItem;
 
+

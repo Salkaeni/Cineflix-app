@@ -88,5 +88,5 @@
 
 /* Ensure items are displayed properly */
 .snack-item img, .ticket-item img {
-  max-width: 100%; /* Ensure images fit within their containers */
+  max-width: 80%; /* Ensure images fit within their containers */
 }
