@@ -8,11 +8,11 @@ const Home = ({ addToCart }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3000/snacks');
+      const response = await fetch('http://localhost:3001/snacks');
       const snacksData = await response.json();
       setSnacks(snacksData);
 
-      const ticketResponse = await fetch('http://localhost:3000/tickets');
+      const ticketResponse = await fetch('http://localhost:3001/tickets');
       const ticketsData = await ticketResponse.json();
       setTickets(ticketsData);
     };
