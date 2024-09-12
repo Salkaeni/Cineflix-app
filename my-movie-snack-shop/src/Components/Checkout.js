@@ -1,11 +1,7 @@
 import React from 'react';
+import CheckoutForm from './CheckoutForm'; // Import the CheckoutForm component
 
 const Checkout = ({ cartItems, total, onPlaceOrder }) => {
-  const handlePlaceOrder = () => {
-    // Trigger the place order function passed as a prop
-    onPlaceOrder();
-  };
-
   return (
     <div className="checkout-container">
       <h1>Checkout</h1>
@@ -25,7 +21,7 @@ const Checkout = ({ cartItems, total, onPlaceOrder }) => {
           </ul>
           <div className="checkout-total">
             <h2>Total: ${total}</h2>
-            <button onClick={handlePlaceOrder}>Place Order</button>
+            <CheckoutForm onPlaceOrder={onPlaceOrder} />
           </div>
         </div>
       )}

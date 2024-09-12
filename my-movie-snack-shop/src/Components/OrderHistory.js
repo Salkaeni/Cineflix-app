@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch('http://localhost:3000/orders');
-      const ordersData = await response.json();
-      setOrders(ordersData);
+      try {
+        const response = await fetch('http://localhost:3001/orders');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const ordersData = await response.json();
+        setOrders(ordersData);
+      } catch (error) {
+        setError(error.message);
+      }
     };
 
     fetchOrders();
@@ -16,6 +24,7 @@ const OrderHistory = () => {
   return (
     <div>
       <h2>Order History</h2>
+      {error && <p>Error fetching orders: {error}</p>}
       {orders.length === 0 ? (
         <p>No past orders available.</p>
       ) : (
