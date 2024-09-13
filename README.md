@@ -128,6 +128,7 @@ The project is structured with the following key components:
                     │   ├── components/
                     │   │   ├── Cart.js
                     │   │   ├── Checkout.js
+                            ├── CheckoutForm.js
                     │   │   ├── Home.js
                     │   │   ├── NavBar.js
                     │   │   ├── OrderHistory.js
@@ -149,6 +150,7 @@ The project is structured with the following key components:
   - `components/:` Contains the React components.
   - `Cart.js:` Displays the cart with added items.
   - `Checkout.js:` Handles the checkout process.
+  - `CheckoutForm.js:` Manages user input for customer details during checkout.
   - `Home.js:` The homepage displaying available tickets and snacks.
   - `NavBar.js:` A navigation bar for navigating through the app.
   - `OrderHistory.js:` Displays the list of past purchases.

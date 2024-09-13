@@ -1,62 +1,61 @@
 import React, { useState } from 'react';
 
-const CheckoutForm = ({ onPlaceOrder }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    address: '',
-  });
+const CheckoutForm = ({ cartItems = [], totalPrice, onPlaceOrder }) => {
+  const [customerName, setCustomerName] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onPlaceOrder(formData);
+
+    // Check if cartItems is an array and not empty
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+      console.error('Cart is empty');
+      return;
+    }
+
+    const newOrder = {
+      customer: customerName,
+      items: cartItems.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+      })),
+      totalPrice,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3001/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newOrder),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to place order');
+      }
+      setSuccess(true);
+      onPlaceOrder(); // Call the onPlaceOrder callback
+    } catch (error) {
+      console.error('Order placement failed:', error.message);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="name">Name:</label>
+      <h2>Checkout</h2>
+      <label>
+        Name:
         <input
           type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
+          value={customerName}
+          onChange={(e) => setCustomerName(e.target.value)}
           required
         />
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="address">Address:</label>
-        <textarea
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      </label>
       <button type="submit">Place Order</button>
+
+      {success && <p>Order placed successfully!</p>}
     </form>
   );
 };
 
 export default CheckoutForm;
+

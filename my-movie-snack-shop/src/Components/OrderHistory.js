@@ -32,6 +32,7 @@ const OrderHistory = () => {
           {orders.map((order) => (
             <li key={order.id}>
               <p>Order ID: {order.id}</p>
+              <p>Customer: {order.customer}</p>
               <p>Items: {order.items.map(item => `${item.name} (x${item.quantity})`).join(', ')}</p>
               <p>Total Price: ${order.totalPrice}</p>
             </li>

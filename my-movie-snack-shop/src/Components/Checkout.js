@@ -1,7 +1,7 @@
 import React from 'react';
 import CheckoutForm from './CheckoutForm'; // Ensure the path is correct
 
-const Checkout = ({ cartItems, total, onPlaceOrder }) => {
+const Checkout = ({ cartItems, totalPrice, onPlaceOrder }) => {
   return (
     <div className="checkout-container">
       <h1>Checkout</h1>
@@ -20,8 +20,12 @@ const Checkout = ({ cartItems, total, onPlaceOrder }) => {
             ))}
           </ul>
           <div className="checkout-total">
-            <h2>Total: ${total}</h2>
-            <CheckoutForm onPlaceOrder={onPlaceOrder} />
+            <h2>Total: ${totalPrice}</h2>
+            <CheckoutForm 
+              cartItems={cartItems} 
+              totalPrice={totalPrice} 
+              onPlaceOrder={onPlaceOrder} 
+            />
           </div>
         </div>
       )}
@@ -30,4 +34,6 @@ const Checkout = ({ cartItems, total, onPlaceOrder }) => {
 };
 
 export default Checkout;
+
+
 

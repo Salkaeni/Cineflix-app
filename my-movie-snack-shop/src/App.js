@@ -9,8 +9,8 @@ import './App.css';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  const [total, setTotal] = useState(0);
-
+  const [totalPrice, setTotalPrice] = useState(0);
+  
   const addToCart = (item) => {
     // Add item to cart logic
     const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
@@ -21,7 +21,7 @@ function App() {
     } else {
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
-    setTotal(prevTotal => prevTotal + item.price);
+    setTotalPrice(prevTotal => prevTotal + item.price);
   };
 
   const removeFromCart = (id) => {
@@ -29,7 +29,7 @@ function App() {
     const itemToRemove = cartItems.find(cartItem => cartItem.id === id);
     if (itemToRemove) {
       setCartItems(cartItems.filter(cartItem => cartItem.id !== id));
-      setTotal(prevTotal => prevTotal - itemToRemove.price * itemToRemove.quantity);
+      setTotalPrice(prevTotal => prevTotal - itemToRemove.price * itemToRemove.quantity);
     }
   };
 
@@ -37,19 +37,20 @@ function App() {
     // Place order logic, e.g., send data to backend and clear cart
     console.log('Order placed!');
     setCartItems([]);
-    setTotal(0);
+    setTotalPrice(0);
   };
 
   return (
     <Router>
       <div className="App">
+      
         <NavBar />
         <div className="content">
           <Routes>
             <Route path="/" element={<Home addToCart={addToCart} />} />
             <Route path="/cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
             <Route path="/order-history" element={<OrderHistory />} />
-            <Route path="/checkout" element={<Checkout cartItems={cartItems} total={total} onPlaceOrder={handlePlaceOrder} />} />
+            <Route path="/checkout" element={<Checkout cartItems={cartItems} totalPrice={totalPrice} onPlaceOrder={handlePlaceOrder} />} />
           </Routes>
         </div>
       </div>
